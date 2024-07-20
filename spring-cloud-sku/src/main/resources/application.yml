@@ -1,0 +1,20 @@
+server:
+  port: 8889
+# ${}不行就换@@
+spring:
+  profiles:
+    active: beta
+  application:
+    name: eureka-client-sku
+
+eureka:
+  instance:
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true
+    hostname: eureka-client-sku
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:7001/eureka/,http://localhost:7002/eureka

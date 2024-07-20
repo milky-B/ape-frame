@@ -1,0 +1,4 @@
+# ${}不行就换@@
+spring:
+  profiles:
+    active: beta

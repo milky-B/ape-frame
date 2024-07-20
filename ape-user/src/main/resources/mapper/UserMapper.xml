@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airport.ape.user.mapper.UserMapper">
+    <select id="selectUserPage" resultType="com.airport.ape.user.entity.po.UserPo">
+        select id,name,age from user
+
+    </select>
+
+    <resultMap type="com.airport.ape.user.entity.dto.UserWithWorkOrderDto" id="resultMap">
+        <id property="id" column="u_id"/>
+        <result property="name" column="name"/>
+        <collection property="warehouseWorkOrder" ofType="com.airport.ape.user.entity.po.WarehouseWorkOrder">
+            <id property="id" column="w_id"/>
+            <result property="workType" column="work_type"/>
+            <result property="goodsOperateTime" column="goods_operate_time"/>
+            <result property="finishTime" column="finish_time"/>
+        </collection>
+    </resultMap>
+    <select id="queryUserWithWorkOrderBySupplierId" resultMap="resultMap">
+        SELECT u.id u_id, u.name, wwo.id AS w_id, wwo.work_type, wwo.goods_operate_time, wwo.finish_time
+        FROM user u
+        LEFT JOIN warehouse_work_order wwo ON wwo.outsourced_user_id = u.id
+        <if test='start != null and start != ""'>
+            AND wwo.finish_time >= #{start}
+        </if>
+        <if test='end != null and end != ""'>
+            AND wwo.finish_time &lt;= #{end}
+        </if>
+        where u.role = #{supplierId}
+    </select>
+    <select id="selectCountByEntity" resultType="java.lang.Integer">
+        select count(1)
+        from user
+        <where>
+            <if test="name!='' and name!=null"> and name like concat(#{name},'%') </if>
+            <if test="age!=null"> and age &gt; #{age}</if>
+        </where>
+    </select>
+</mapper>

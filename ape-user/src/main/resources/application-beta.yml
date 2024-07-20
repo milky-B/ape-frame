@@ -1,0 +1,115 @@
+server:
+  port: 8081
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    static-path-pattern: /static/**
+  datasource:
+    username: admin
+    password: 123456
+    driver-class-name:mysql: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ape_frame?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 20
+      min-idle: 20
+      max-active: 100
+      max-wait: 60000
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: root
+        login-password: root
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true
+          slow-sql-millis: 2000
+      wall:
+        enabled: true
+  redis:
+    host: 192.168.56.108
+    port: 6379
+    password:
+    database: 0
+    timeout: 3000
+    lettuce :
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1
+        min-idle: 0
+
+sql:
+  beauty:
+    show: true
+    page: true
+    fill: true
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: delete_flag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      #id类型。
+      id-type: ASSIGN_ID # 默认为ASSIGN_ID
+  type-aliases-package: com.airport.ape.user.entity.po
+
+
+
+swagger:
+  info:
+    basePackage: /
+    title: 脚手架api
+    description: 脚手架api
+    contactName: lee
+    contactEmail: abc@qq.com
+    contactUrl: abc.com
+    version: 1.0
+
+#logging:
+#  config: classpath:log4j2.xml
+logging:
+  level:
+    com.airport.ape.user.mapper: debug
+
+log:
+  aop:
+    enable: true
+
+traceId:
+  filter:
+    enable: false
+
+guava:
+  cache:
+    switch: true
+
+test:
+  controller:
+    conditional: true
+
+# web port
+# no web
+#spring.main.web-environment=false
+
+# log config
+#logging:`config=classpath:logback.xml
+
+
+### xxl-job admin address list, such as "http://address" or "http://address01,http://address02"
+#xxl:
+#  job:
+#    admin:
+#      addresses: http://127.0.0.1:9000/xxl-job-admin
+#    accessToken: default_token
+#    executor:
+#      appname: ape-frame
+#      address:
+#      ip: 127.0.0.1
+#      port: 9999
+#      logpath: /data/applogs/xxl-job/jobhandler
+#      logretentiondays: 30
